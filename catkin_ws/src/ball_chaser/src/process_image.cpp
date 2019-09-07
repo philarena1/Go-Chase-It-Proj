@@ -40,46 +40,46 @@ void process_image_callback(const sensor_msgs::Image img)
     // start top first
     float dir = float(img.step)/3;
 
-    bool found_ball = false;
+    bool found_ball;
 
     int count = 0;
     for (int i = 0; i < img.height; i ++){ 
     // look left and right 
         for (int j = 0; j < img.step; j ++){  
-        
+            bool found_ball = false;	
 	    if  ((img.data[count]) == 255)  {
 		found_ball = true;
                  //left
 	        if ((j > 0) && (j <= dir )  ) {
 	 	    	//ROS_INFO_STREAM("left");
                     	drive_robot(0.0,0.25);
+			break;
                    }
  	    	 //forward
            	 if ((j > dir) && (j <= 2 * dir )  ) {
  			//ROS_INFO_STREAM("forward");
              		drive_robot(0.5,0.0);
+			break;
              		}
 	     	  //right
 	   	 if ((j > 2 * dir) && (j <= 3 * dir )  ) {
 			//ROS_INFO_STREAM("right");
              		drive_robot(0,-0.25);
+			break;
             	 }
-
 		break;
              }
-		
-
+	
       	count = count + 1;
 	
 	}
-	   if (found_ball = false) {
-   //ROS_INFO_STREAM("No White Ball- Stopping");
-   drive_robot(0,0);
- 		}			
+	if (found_ball = false) {
+		 drive_robot(0,0);
+				
+		}			
 
   }
 
-    
 
 }
 
